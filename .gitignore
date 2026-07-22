@@ -1,0 +1,26 @@
+# dipendenze
+node_modules/
+
+# variabili d'ambiente: contengono password, non vanno mai su GitHub
+.env
+.env.local
+.env.*.local
+
+# build
+dist/
+build/
+.vite/
+
+# client Prisma generato
+**/generated/
+.prisma/
+
+# log
+*.log
+npm-debug.log*
+
+# editor e sistema
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

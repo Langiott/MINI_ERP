@@ -1,0 +1,139 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Sequenza GET lista" id="seq">
+    <mxGraphModel dx="1200" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1150" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="t" value="GET /api/dipendenti" style="text;html=1;fontSize=20;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="400" y="15" width="300" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ===== attori ===== -->
+        <mxCell id="a1" value="DipendentiPage.tsx" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="60" y="70" width="150" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" value="dipendenti.api.ts" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="250" y="70" width="140" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="a3" value="routes.js" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="470" y="70" width="120" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="a4" value="controller.js" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="650" y="70" width="130" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="a5" value="Prisma" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="840" y="70" width="110" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="a6" value="PostgreSQL" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="70" width="120" height="42" as="geometry" />
+        </mxCell>
+
+        <!-- ===== lifelines, ognuna del colore del suo attore ===== -->
+        <mxCell id="l1" style="endArrow=none;dashed=1;html=1;strokeColor=#d6b656;strokeWidth=2;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="135" y="112" as="sourcePoint" /><mxPoint x="135" y="810" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="l2" style="endArrow=none;dashed=1;html=1;strokeColor=#82b366;strokeWidth=2;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="320" y="112" as="sourcePoint" /><mxPoint x="320" y="810" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="l3" style="endArrow=none;dashed=1;html=1;strokeColor=#d6b656;strokeWidth=2;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="530" y="112" as="sourcePoint" /><mxPoint x="530" y="810" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="l4" style="endArrow=none;dashed=1;html=1;strokeColor=#82b366;strokeWidth=2;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="715" y="112" as="sourcePoint" /><mxPoint x="715" y="810" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="l5" style="endArrow=none;dashed=1;html=1;strokeColor=#b85450;strokeWidth=2;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="895" y="112" as="sourcePoint" /><mxPoint x="895" y="810" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="l6" style="endArrow=none;dashed=1;html=1;strokeColor=#b85450;strokeWidth=2;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1060" y="112" as="sourcePoint" /><mxPoint x="1060" y="810" as="targetPoint" /></mxGeometry></mxCell>
+
+        <!-- ===== confine di rete ===== -->
+        <mxCell id="banda" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=none;opacity=45;" vertex="1" parent="1">
+          <mxGeometry x="405" y="125" width="40" height="690" as="geometry" />
+        </mxCell>
+        <mxCell id="confl" value="BROWSER" style="text;html=1;fontSize=11;fontStyle=1;fontColor=#d79b00;align=center;" vertex="1" parent="1">
+          <mxGeometry x="290" y="820" width="110" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="confr" value="SERVER" style="text;html=1;fontSize=11;fontStyle=1;fontColor=#d79b00;align=center;" vertex="1" parent="1">
+          <mxGeometry x="450" y="820" width="110" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="httplab" value="HTTP" style="text;html=1;fontSize=11;fontStyle=1;fontColor=#d79b00;align=center;horizontal=0;" vertex="1" parent="1">
+          <mxGeometry x="410" y="420" width="30" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ===== ANDATA ===== -->
+        <mxCell id="p0" value="① useEffect(() =&gt; {…}, [])&#10;parte una sola volta" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=8;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="35" y="140" width="200" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s1" value="" style="endArrow=block;html=1;strokeColor=#82b366;strokeWidth=2;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="135" y="215" as="sourcePoint" /><mxPoint x="320" y="215" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="s1t" value="② getDipendenti()" style="text;html=1;fontSize=11;align=center;fontColor=#4d7a33;" vertex="1" parent="1">
+          <mxGeometry x="140" y="193" width="175" height="18" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s2" value="" style="endArrow=block;html=1;strokeColor=#d79b00;strokeWidth=3;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="320" y="285" as="sourcePoint" /><mxPoint x="530" y="285" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="s2t" value="③ fetch('/api/dipendenti')&#10;proxy Vite: 5173 → 3000" style="text;html=1;fontSize=11;align=center;fontColor=#a06800;" vertex="1" parent="1">
+          <mxGeometry x="322" y="248" width="210" height="32" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s3" value="" style="endArrow=block;html=1;strokeColor=#82b366;strokeWidth=2;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="530" y="350" as="sourcePoint" /><mxPoint x="715" y="350" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="s3t" value="④ router.get('/', …)" style="text;html=1;fontSize=11;align=center;fontColor=#4d7a33;" vertex="1" parent="1">
+          <mxGeometry x="533" y="328" width="180" height="18" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s4" value="" style="endArrow=block;html=1;strokeColor=#b85450;strokeWidth=2;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="715" y="415" as="sourcePoint" /><mxPoint x="895" y="415" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="s4t" value="⑤ findMany()" style="text;html=1;fontSize=11;align=center;fontColor=#9c2b28;" vertex="1" parent="1">
+          <mxGeometry x="718" y="393" width="175" height="18" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s5" value="" style="endArrow=block;html=1;strokeColor=#b85450;strokeWidth=3;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="895" y="480" as="sourcePoint" /><mxPoint x="1060" y="480" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="s5t" value="⑥ SELECT * FROM Dipendenti" style="text;html=1;fontSize=11;align=center;fontColor=#9c2b28;" vertex="1" parent="1">
+          <mxGeometry x="880" y="458" width="195" height="18" as="geometry" />
+        </mxCell>
+
+        <!-- ===== RITORNO ===== -->
+        <mxCell id="r1" value="" style="endArrow=open;dashed=1;html=1;strokeColor=#b85450;strokeWidth=2;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="1060" y="545" as="sourcePoint" /><mxPoint x="895" y="545" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="r1t" value="⑦ righe della tabella" style="text;html=1;fontSize=11;align=center;fontColor=#9c2b28;" vertex="1" parent="1">
+          <mxGeometry x="885" y="523" width="185" height="18" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r2" value="" style="endArrow=open;dashed=1;html=1;strokeColor=#b85450;strokeWidth=2;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="895" y="610" as="sourcePoint" /><mxPoint x="715" y="610" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="r2t" value="⑧ array di oggetti JS" style="text;html=1;fontSize=11;align=center;fontColor=#9c2b28;" vertex="1" parent="1">
+          <mxGeometry x="713" y="588" width="185" height="18" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r3" value="" style="endArrow=open;dashed=1;html=1;strokeColor=#d79b00;strokeWidth=3;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="715" y="675" as="sourcePoint" /><mxPoint x="320" y="675" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="r3t" value="⑨ res.json(dipendenti)  —  status 200" style="text;html=1;fontSize=11;align=center;fontColor=#a06800;" vertex="1" parent="1">
+          <mxGeometry x="330" y="653" width="380" height="18" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r4" value="" style="endArrow=open;dashed=1;html=1;strokeColor=#82b366;strokeWidth=2;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="320" y="740" as="sourcePoint" /><mxPoint x="135" y="740" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="r4t" value="⑩ gestisciRisposta()&#10;controlla res.ok → res.json()" style="text;html=1;fontSize=11;align=center;fontColor=#4d7a33;" vertex="1" parent="1">
+          <mxGeometry x="128" y="703" width="200" height="32" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p11" value="⑪ setDipendenti(dati)&#10;&#10;stato cambia → React ridisegna&#10;→ .map() costruisce le righe&#10;→ tabella a schermo" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=8;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="30" y="765" width="215" height="82" as="geometry" />
+        </mxCell>
+
+        <!-- ===== note ===== -->
+        <mxCell id="n2" value="Perche' l'array vuoto []&#10;&#10;Significa: esegui UNA VOLTA sola.&#10;Senza, la fetch cambia lo stato,&#10;lo stato provoca un ridisegno,&#10;il ridisegno rilancia la fetch…&#10;→ ciclo infinito." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;verticalAlign=top;spacingTop=6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="60" y="380" width="230" height="115" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n1" value="Perche' serve gestisciRisposta()&#10;&#10;fetch NON lancia errori sui codici HTTP.&#10;Un 404 o un 500 arrivano come risposte&#10;normali, con res.ok = false.&#10;&#10;Senza il controllo, un errore del server&#10;finirebbe nella tabella come un dato." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;verticalAlign=top;spacingTop=6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="790" y="690" width="280" height="125" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

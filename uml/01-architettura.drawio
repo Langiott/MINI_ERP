@@ -1,0 +1,133 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Architettura" id="arch">
+    <mxGraphModel dx="1200" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1150" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="t" value="MINI_ERP" style="text;html=1;fontSize=22;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="475" y="12" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="t2" value="il percorso di un dato, dall'alto verso il basso" style="text;html=1;fontSize=12;align=center;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="415" y="40" width="320" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- ================= COLONNA BROWSER ================= -->
+        <mxCell id="boxB" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f6ff;strokeColor=#6c8ebf;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="380" height="620" as="geometry" />
+        </mxCell>
+        <mxCell id="hB" value="BROWSER  —  frontend  —  porta 5173" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#6c8ebf;strokeColor=none;fontColor=#ffffff;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="380" height="34" as="geometry" />
+        </mxCell>
+
+        <mxCell id="b1" value="main.tsx&#10;monta React nella pagina HTML" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="95" y="135" width="310" height="46" as="geometry" />
+        </mxCell>
+
+        <mxCell id="b2" value="App.tsx&#10;componente radice" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="95" y="207" width="310" height="46" as="geometry" />
+        </mxCell>
+
+        <mxCell id="b3" value="&lt;b&gt;pages/DipendentiPage.tsx&lt;/b&gt;&#10;&#10;useState   → i dati tenuti in memoria&#10;useEffect  → carica al primo avvio&#10;JSX        → tabella, form, pulsanti" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=10;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="95" y="279" width="310" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="b4" value="&lt;b&gt;api/dipendenti.api.ts&lt;/b&gt;&#10;&#10;getDipendenti()          getDipendente(id)&#10;creaDipendente(dati)  aggiornaRuolo(id, r)&#10;eliminaDipendente(id)&#10;eliminaDipendenti(ids)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=10;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="95" y="405" width="310" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="b5" value="types/dipendenti.types.ts&#10;type Dipendente · type Ruolo" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#aaaaaa;dashed=1;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="95" y="620" width="310" height="46" as="geometry" />
+        </mxCell>
+
+        <mxCell id="eb1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#6c8ebf;strokeWidth=2;" edge="1" parent="1" source="b1" target="b2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="eb2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#6c8ebf;strokeWidth=2;" edge="1" parent="1" source="b2" target="b3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="eb3" value="chiama" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#82b366;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="b3" target="b4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="eb4" value="usa i tipi" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#aaaaaa;dashed=1;fontSize=10;" edge="1" parent="1" source="b4" target="b5"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- ================= PONTE HTTP ================= -->
+        <mxCell id="ponte" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="465" y="405" width="180" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="pontet" value="&lt;b&gt;HTTP&lt;/b&gt;&#10;&#10;fetch('/api/dipendenti')&#10;&#10;proxy Vite&#10;5173 → 3000" style="text;html=1;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="470" y="415" width="170" height="95" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ep1" value="richiesta" style="endArrow=block;html=1;strokeColor=#d79b00;strokeWidth=3;fontSize=10;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="405" y="437" as="sourcePoint" /><mxPoint x="465" y="437" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="ep2" value="risposta" style="endArrow=block;html=1;strokeColor=#d79b00;strokeWidth=3;dashed=1;fontSize=10;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="465" y="490" as="sourcePoint" /><mxPoint x="405" y="490" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="ep3" value="" style="endArrow=block;html=1;strokeColor=#d79b00;strokeWidth=3;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="645" y="437" as="sourcePoint" /><mxPoint x="705" y="437" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="ep4" value="" style="endArrow=block;html=1;strokeColor=#d79b00;strokeWidth=3;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="705" y="490" as="sourcePoint" /><mxPoint x="645" y="490" as="targetPoint" /></mxGeometry>
+        </mxCell>
+
+        <!-- ================= COLONNA SERVER ================= -->
+        <mxCell id="boxS" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f7f2fb;strokeColor=#9673a6;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="705" y="80" width="380" height="620" as="geometry" />
+        </mxCell>
+        <mxCell id="hS" value="SERVER NODE  —  backend  —  porta 3000" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#9673a6;strokeColor=none;fontColor=#ffffff;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="705" y="80" width="380" height="34" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s1" value="server.js&#10;app.listen(3000)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="740" y="135" width="310" height="46" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s2" value="app.js&#10;express.json()  ·  app.use('/api/dipendenti', …)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="740" y="207" width="310" height="46" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s3" value="&lt;b&gt;routes/dipendenti.routes.js&lt;/b&gt;&#10;&#10;GET / · GET /:id · POST /&#10;PUT /:id · DELETE /:id · DELETE /" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=10;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="740" y="279" width="310" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s4" value="&lt;b&gt;controllers/dipendenti.controller.js&lt;/b&gt;&#10;&#10;getAllDipendenti      getDipendente&#10;postDipendente        updateRuolo&#10;deleteDipendente&#10;deleteDipendenti" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=10;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="740" y="405" width="310" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s5" value="config/prisma.js&#10;new PrismaClient({ adapter })  —  una sola istanza" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="740" y="545" width="310" height="46" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s6" value="services/dipendenti.service.js&#10;validaIds()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#aaaaaa;dashed=1;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="740" y="620" width="310" height="46" as="geometry" />
+        </mxCell>
+
+        <mxCell id="es1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#9673a6;strokeWidth=2;" edge="1" parent="1" source="s1" target="s2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="es2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#9673a6;strokeWidth=2;" edge="1" parent="1" source="s2" target="s3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="es3" value="chiama" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#82b366;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="s3" target="s4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="es4" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=2;" edge="1" parent="1" source="s4" target="s5"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="es5" value="valida" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#aaaaaa;dashed=1;fontSize=10;" edge="1" parent="1" source="s5" target="s6"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- ================= DATABASE ================= -->
+        <mxCell id="db" value="&lt;b&gt;PostgreSQL 16&lt;/b&gt;   —   container Docker   —   localhost:5433   —   database mini_erp" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=12;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="705" y="730" width="380" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="edb" value="SQL" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=3;fontSize=11;" edge="1" parent="1" source="s5" target="db"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="680" y="568" /><mxPoint x="680" y="775" /></Array></mxGeometry></mxCell>
+
+        <mxCell id="schema" value="prisma/schema.prisma&#10;&#10;model Dipendenti · model Reparto&#10;enum Ruolo · enum Tipo_reparto" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;spacingLeft=10;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="415" y="730" width="240" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="eschema" value="prisma migrate&#10;prisma generate" style="endArrow=block;html=1;strokeColor=#b85450;dashed=1;strokeWidth=2;fontSize=10;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="655" y="775" as="sourcePoint" /><mxPoint x="705" y="775" as="targetPoint" /></mxGeometry>
+        </mxCell>
+
+        <!-- ================= LEGENDA ================= -->
+        <mxCell id="leg" value="&lt;b&gt;COLORI&lt;/b&gt;&#10;&#10;giallo   orchestra: decide cosa fare (pagina · rotte)&#10;verde    parla con l'esterno (api · controller)&#10;rosso    accesso ai dati (Prisma · database)&#10;grigio   supporto (tipi · validazione)&#10;arancio  il confine di rete" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;align=left;spacingLeft=10;verticalAlign=top;spacingTop=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="60" y="730" width="330" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="nota" value="&lt;b&gt;LE DUE COLONNE SONO DUE PROGRAMMI DIVERSI&lt;/b&gt;&#10;&#10;Girano su macchine potenzialmente distinte.&#10;DipendentiPage.tsx NON puo' importare il controller:&#10;vive nel browser dell'utente, non vede il database.&#10;L'unico ponte fra le due colonne e' HTTP.&#10;&#10;Nota la simmetria fra i due lati:&#10;pagina ↔ controller  (orchestrano)&#10;api ↔ prisma          (parlano con l'esterno)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10;verticalAlign=top;spacingTop=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="465" y="130" width="180" height="250" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

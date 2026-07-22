@@ -1,0 +1,232 @@
+:root {
+  --bordo: #e2e5ea;
+  --testo: #1f2430;
+  --tenue: #6b7280;
+  --sfondo: #f6f7f9;
+  --blu: #2563eb;
+  --rosso: #dc2626;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color: var(--testo);
+  background: var(--sfondo);
+}
+
+/* ---------- pagina ---------- */
+
+.pagina {
+  background: #fff;
+  border: 1px solid var(--bordo);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+
+.barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.barra h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.azioni {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.errore {
+  margin: 0 0 1rem;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid #f5c2c2;
+  border-radius: 6px;
+  background: #fdf0f0;
+  color: var(--rosso);
+  font-size: 0.9rem;
+}
+
+/* ---------- pulsanti ---------- */
+
+.btn {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--bordo);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--testo);
+  font-size: 0.875rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: var(--sfondo);
+}
+
+.btn.primario {
+  border-color: var(--blu);
+  background: var(--blu);
+  color: #fff;
+}
+
+.btn.primario:hover {
+  background: #1d4ed8;
+}
+
+.btn.pericolo {
+  border-color: #f0b4b4;
+  color: var(--rosso);
+  background: #fff;
+}
+
+.btn.pericolo:hover {
+  background: #fdf0f0;
+}
+
+.btn.piccolo {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8rem;
+}
+
+/* ---------- tabella ---------- */
+
+.tabella {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.tabella th,
+.tabella td {
+  padding: 0.6rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--bordo);
+}
+
+.tabella thead th {
+  background: var(--sfondo);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--tenue);
+  border-bottom: 2px solid var(--bordo);
+}
+
+.tabella tbody tr:hover {
+  background: #fafbfc;
+}
+
+.tabella tbody tr.scelta {
+  background: #eff4ff;
+}
+
+.col-check {
+  width: 36px;
+}
+
+.col-azioni {
+  width: 170px;
+  white-space: nowrap;
+}
+
+.col-azioni .btn + .btn {
+  margin-left: 0.35rem;
+}
+
+.vuoto {
+  padding: 2rem;
+  text-align: center;
+  color: var(--tenue);
+}
+
+.etichetta {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: var(--sfondo);
+  border: 1px solid var(--bordo);
+  font-size: 0.75rem;
+}
+
+/* ---------- dialoghi ---------- */
+
+.velo {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 20, 30, 0.45);
+  padding: 1rem;
+}
+
+.riquadro {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.25rem 1.4rem 1.4rem;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+}
+
+.riquadro h3 {
+  margin: 0 0 1rem;
+  font-size: 1.05rem;
+}
+
+.riquadro p {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+}
+
+.riquadro .avviso {
+  color: var(--tenue);
+  font-size: 0.82rem;
+  margin-bottom: 1.2rem;
+}
+
+.riquadro label {
+  display: block;
+  margin-bottom: 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--tenue);
+}
+
+.riquadro input,
+.riquadro select {
+  display: block;
+  width: 100%;
+  margin-top: 0.3rem;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--bordo);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  font-weight: 400;
+  color: var(--testo);
+  background: #fff;
+}
+
+.riquadro input:focus,
+.riquadro select:focus {
+  outline: 2px solid var(--blu);
+  outline-offset: -1px;
+}
+
+.pulsanti {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1.2rem;
+}

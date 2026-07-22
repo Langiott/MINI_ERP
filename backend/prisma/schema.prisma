@@ -1,0 +1,35 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+enum Ruolo{
+    Admin 
+    Super_Admin
+    Operatore
+}
+
+enum Tipo_reparto {
+    Ufficio_Logistico
+    Ufficio_Commerciale
+    Ufficio_Amministrazione
+    Ufficio_Informatico
+}
+
+model Dipendenti{
+    id Int @id @default(autoincrement())
+    nome String?
+    cognome String?
+    ruolo Ruolo @default(Operatore)
+    repartoId Int?
+    reparto Reparto?  @relation(fields: [repartoId], references: [id]) 
+}
+
+model Reparto{
+    id Int @id @default(autoincrement())
+    reparto Tipo_reparto @unique
+    dipendente Dipendenti[]
+}
