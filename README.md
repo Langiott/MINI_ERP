@@ -47,6 +47,31 @@ quindi non servono impostazioni CORS.
 
 ---
 
+## Come è fatto
+
+![Architettura di MINI_ERP](img/ARCHITETTURA.png)
+
+Ci sono **due programmi distinti**, che girano su porte diverse e potrebbero stare su
+macchine diverse.
+
+A sinistra il **browser**. `main.tsx` accende React, `App.tsx` è il contenitore,
+`DipendentiPage.tsx` tiene i dati in memoria e disegna tabella e pulsanti. Quando servono
+dati non li chiede al database — non può vederlo — ma chiama una funzione di
+`api/dipendenti.api.ts`.
+
+A destra il **server**. `server.js` si mette in ascolto sulla porta 3000, `app.js`
+configura Express, `routes` decide quale funzione chiamare per ogni indirizzo, il
+`controller` esegue il lavoro e Prisma traduce tutto in SQL per PostgreSQL.
+
+In mezzo, in arancione, l'**unico punto di contatto**: una richiesta HTTP. È il motivo per
+cui `DipendentiPage.tsx` non può importare il controller — sono due mondi separati, e
+l'unico modo di parlarsi è mandarsi messaggi attraverso la rete.
+
+Guardando le due colonne si nota che si somigliano: la pagina sta al controller come il
+file `api/` sta a Prisma. I primi decidono cosa fare, i secondi parlano con l'esterno.
+
+---
+
 ## Struttura
 
 ```
@@ -235,6 +260,38 @@ id inesistente. Devono rispondere `400` o `404`, mai `500`.
 
 ---
 
+## Cosa succede quando apri la pagina
+
+![Sequenza della GET elenco](img/GET.png)
+
+Segui le frecce dall'alto verso il basso: quelle piene vanno verso destra (la richiesta),
+quelle tratteggiate tornano verso sinistra (la risposta).
+
+Appena la pagina si apre, `useEffect` parte una volta sola e chiama `getDipendenti()`.
+Quella funzione fa una `fetch` verso `/api/dipendenti`, che Vite gira dalla porta 5173
+alla 3000. Sul server, Express riconosce l'indirizzo, chiama il controller, il controller
+chiede a Prisma `findMany()` e Prisma esegue un `SELECT` su PostgreSQL.
+
+I dati tornano indietro per la stessa strada: righe della tabella → array di oggetti
+JavaScript → `res.json()` con status 200 → il browser. Lì `gestisciRisposta()` controlla
+che sia andata bene e `setDipendenti()` aggiorna lo stato.
+
+L'ultimo passo è quello che conta: **cambiare lo stato fa ridisegnare la pagina**. Non
+tocchi mai la tabella a mano — modifichi i dati e React aggiorna lo schermo da solo.
+
+### Due cose che non si intuiscono
+
+**L'array vuoto in `useEffect(() => {...}, [])`** significa "esegui una volta sola,
+all'apertura". Senza, si innesca un ciclo infinito: la fetch cambia lo stato, lo stato
+provoca un ridisegno, il ridisegno rilancia la fetch.
+
+**`fetch` non considera un errore i codici HTTP.** Un 404 o un 500 arrivano come risposte
+normali, con `res.ok` a `false`. Senza controllarlo, un messaggio d'errore del server
+finirebbe dentro la tabella come se fosse un dipendente: per questo esiste
+`gestisciRisposta()` in `frontend/src/api/dipendenti.api.ts`.
+
+---
+
 ## Comandi
 
 ### Docker
@@ -289,8 +346,10 @@ adapter — vedi [`src/config/prisma.js`](backend/src/config/prisma.js).
 
 ## Diagrammi
 
-In [`uml/`](uml/), formato Draw.io. Si aprono in VS Code con l'estensione
-*Draw.io Integration*, oppure su app.diagrams.net.
+Le due figure qui sopra vengono da `01-architettura` e `02-sequenza-get`. Gli altri cinque
+diagrammi coprono un endpoint ciascuno. I sorgenti sono in [`uml/`](uml/), formato Draw.io:
+si aprono in VS Code con l'estensione *Draw.io Integration*, oppure su
+[app.diagrams.net](https://app.diagrams.net).
 
 | File | Contenuto |
 |---|---|
@@ -301,6 +360,9 @@ In [`uml/`](uml/), formato Draw.io. Si aprono in VS Code con l'estensione
 | `05-sequenza-put` | PUT, `where` contro `data` |
 | `06-sequenza-delete` | DELETE singolo |
 | `07-sequenza-delete-multiplo` | DELETE multiplo, con il service |
+
+Per esportarne altri in PNG: aprire il `.drawio` in VS Code → click destro →
+*Export as PNG* → salvare in `img/`.
 
 ---
 
