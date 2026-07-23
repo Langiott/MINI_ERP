@@ -31,6 +31,13 @@ export type Dipendente = {
   reparto: Reparto | null;
 };
 
+export type DatiDipendente = {
+  nome: string;
+  cognome: string;
+  ruolo: Ruolo;
+  reparto: TipoReparto | null;
+};
+
 // Cosa mandi tu al backend: l'id lo assegna il database,
 // ruolo e reparto sono facoltativi.
 export type NuovoDipendente = {

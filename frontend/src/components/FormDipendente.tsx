@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import Dialogo from './Dialogo';
 import { RUOLI, REPARTI } from '../types/dipendenti.types';
-import type { Dipendente, Ruolo, TipoReparto } from '../types/dipendenti.types';
+import type {
+  DatiDipendente,
+  Dipendente,
+  Ruolo,
+  TipoReparto,
+} from '../types/dipendenti.types';
 
 // Serve sia a creare sia a modificare: cambia solo il valore iniziale.
 //   dipendente = null  -> creazione
@@ -9,12 +14,7 @@ import type { Dipendente, Ruolo, TipoReparto } from '../types/dipendenti.types';
 
 type Props = {
   dipendente: Dipendente | null;
-  onSalva: (dati: {
-    nome: string;
-    cognome: string;
-    ruolo: Ruolo;
-    reparto: TipoReparto | null;
-  }) => void;
+  onSalva: (dati: DatiDipendente) => void;
   onAnnulla: () => void;
 };
 
