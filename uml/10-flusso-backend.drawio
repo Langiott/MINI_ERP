@@ -1,0 +1,78 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Flusso backend" id="flow1">
+    <mxGraphModel dx="1400" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="n1" value="richiesta&#10;HTTP" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="120" width="150" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" style="endArrow=block;html=1;strokeColor=#666666;strokeWidth=2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="n1" target="n2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n2" value="app.js" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=13;fontFamily=Courier New;" vertex="1" parent="1">
+          <mxGeometry x="240" y="120" width="150" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" value="configura&#10;Express" style="text;html=1;fontSize=11;fontColor=#666666;align=center;" vertex="1" parent="1">
+          <mxGeometry x="240" y="220" width="150" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e2" style="endArrow=block;html=1;strokeColor=#666666;strokeWidth=2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="n2" target="n3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n3" value="routes/" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;fontFamily=Courier New;" vertex="1" parent="1">
+          <mxGeometry x="440" y="120" width="150" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="d3" value="quale funzione&#10;per l'indirizzo?" style="text;html=1;fontSize=11;fontColor=#666666;align=center;" vertex="1" parent="1">
+          <mxGeometry x="440" y="220" width="150" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e3" style="endArrow=block;html=1;strokeColor=#666666;strokeWidth=2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="n3" target="n4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n4" value="controllers/" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;fontFamily=Courier New;" vertex="1" parent="1">
+          <mxGeometry x="640" y="120" width="150" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="d4" value="legge req,&#10;scrive res" style="text;html=1;fontSize=11;fontColor=#666666;align=center;" vertex="1" parent="1">
+          <mxGeometry x="640" y="220" width="150" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e4" style="endArrow=block;html=1;strokeColor=#666666;strokeWidth=2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="n4" target="n5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n5" value="services/" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;fontFamily=Courier New;" vertex="1" parent="1">
+          <mxGeometry x="840" y="120" width="150" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="d5" value="valida i dati,&#10;applica le regole" style="text;html=1;fontSize=11;fontColor=#666666;align=center;" vertex="1" parent="1">
+          <mxGeometry x="840" y="220" width="150" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e5" style="endArrow=block;html=1;strokeColor=#666666;strokeWidth=2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="n5" target="n6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n6" value="config/&#10;prisma" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;fontSize=13;fontFamily=Courier New;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="120" width="150" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="d6" value="parla con&#10;il database" style="text;html=1;fontSize=11;fontColor=#666666;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="220" width="150" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e6" style="endArrow=block;html=1;strokeColor=#666666;strokeWidth=2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="n6" target="n7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n7" value="PostgreSQL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="120" width="150" height="90" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

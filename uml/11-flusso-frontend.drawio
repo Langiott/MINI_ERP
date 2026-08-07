@@ -1,0 +1,48 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Flusso frontend" id="flow2">
+    <mxGraphModel dx="1200" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="n1" value="DipendentiPage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;fontSize=13;fontFamily=Courier New;" vertex="1" parent="1">
+          <mxGeometry x="60" y="120" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="d1" value="mette insieme&#10;i pezzi" style="text;html=1;fontSize=11;fontColor=#666666;align=center;" vertex="1" parent="1">
+          <mxGeometry x="60" y="220" width="200" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" style="endArrow=block;html=1;strokeColor=#666666;strokeWidth=2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="n1" target="n2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n2" value="useDipendenti" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;fontFamily=Courier New;" vertex="1" parent="1">
+          <mxGeometry x="320" y="120" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" value="lo stato&#10;e le azioni" style="text;html=1;fontSize=11;fontColor=#666666;align=center;" vertex="1" parent="1">
+          <mxGeometry x="320" y="220" width="200" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e2" style="endArrow=block;html=1;strokeColor=#666666;strokeWidth=2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="n2" target="n3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n3" value="dipendenti.api.ts" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;fontFamily=Courier New;" vertex="1" parent="1">
+          <mxGeometry x="580" y="120" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="d3" value="le chiamate&#10;fetch" style="text;html=1;fontSize=11;fontColor=#666666;align=center;" vertex="1" parent="1">
+          <mxGeometry x="580" y="220" width="200" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e3" style="endArrow=block;html=1;strokeColor=#666666;strokeWidth=2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="n3" target="n4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n4" value="HTTP &#8594;&#10;backend" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="840" y="120" width="200" height="90" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

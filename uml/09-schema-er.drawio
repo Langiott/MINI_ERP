@@ -1,0 +1,78 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Schema ER" id="er1">
+    <mxGraphModel dx="1200" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1150" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="dip_h" value="Dipendenti" style="swimlane;html=1;startSize=34;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=14;align=center;horizontal=1;" vertex="1" parent="1">
+          <mxGeometry x="90" y="120" width="330" height="214" as="geometry" />
+        </mxCell>
+        <mxCell id="dip_1" value="PK  id : Int" style="text;html=1;strokeColor=none;fillColor=#ffffff;align=left;spacingLeft=12;fontSize=12;fontStyle=1;" vertex="1" parent="dip_h">
+          <mxGeometry y="34" width="330" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="dip_2" value="       nome : String?" style="text;html=1;strokeColor=none;fillColor=#ffffff;align=left;spacingLeft=12;fontSize=12;" vertex="1" parent="dip_h">
+          <mxGeometry y="64" width="330" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="dip_3" value="       cognome : String?" style="text;html=1;strokeColor=none;fillColor=#ffffff;align=left;spacingLeft=12;fontSize=12;" vertex="1" parent="dip_h">
+          <mxGeometry y="92" width="330" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="dip_4" value="       ruolo : Ruolo = Operatore" style="text;html=1;strokeColor=none;fillColor=#ffffff;align=left;spacingLeft=12;fontSize=12;" vertex="1" parent="dip_h">
+          <mxGeometry y="120" width="330" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="dip_5" value="FK  repartoId : Int?" style="text;html=1;strokeColor=none;fillColor=#fff2cc;align=left;spacingLeft=12;fontSize=12;fontStyle=1;" vertex="1" parent="dip_h">
+          <mxGeometry y="148" width="330" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="dip_6" value="       reparto : Reparto?   (relazione)" style="text;html=1;strokeColor=none;fillColor=#ffffff;align=left;spacingLeft=12;fontSize=11;fontColor=#666666;fontStyle=2;" vertex="1" parent="dip_h">
+          <mxGeometry y="178" width="330" height="26" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rep_h" value="Reparto" style="swimlane;html=1;startSize=34;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;fontSize=14;align=center;horizontal=1;" vertex="1" parent="1">
+          <mxGeometry x="730" y="238" width="330" height="152" as="geometry" />
+        </mxCell>
+        <mxCell id="rep_1" value="PK  id : Int" style="text;html=1;strokeColor=none;fillColor=#ffffff;align=left;spacingLeft=12;fontSize=12;fontStyle=1;" vertex="1" parent="rep_h">
+          <mxGeometry y="34" width="330" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="rep_2" value="UQ  reparto : Tipo_reparto" style="text;html=1;strokeColor=none;fillColor=#e1d5e7;align=left;spacingLeft=12;fontSize=12;fontStyle=1;" vertex="1" parent="rep_h">
+          <mxGeometry y="64" width="330" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="rep_3" value="       dipendente : Dipendenti[]   (relazione)" style="text;html=1;strokeColor=none;fillColor=#ffffff;align=left;spacingLeft=12;fontSize=11;fontColor=#666666;fontStyle=2;" vertex="1" parent="rep_h">
+          <mxGeometry y="94" width="330" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="rep_4" value="" style="text;html=1;strokeColor=none;fillColor=#ffffff;" vertex="1" parent="rep_h">
+          <mxGeometry y="120" width="330" height="32" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=ERone;startArrow=ERmany;strokeColor=#d79b00;strokeWidth=3;endFill=0;startFill=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="dip_5" target="rep_1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="card_n" value="N" style="text;html=1;fontSize=15;fontStyle=1;fontColor=#a06800;align=center;" vertex="1" parent="1">
+          <mxGeometry x="428" y="264" width="30" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="card_1" value="1" style="text;html=1;fontSize=15;fontStyle=1;fontColor=#a06800;align=center;" vertex="1" parent="1">
+          <mxGeometry x="692" y="264" width="30" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="enum1" value="&lt;b&gt;enum Ruolo&lt;/b&gt;&#10;&#10;Admin&#10;Super_Admin&#10;Operatore" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;dashed=1;align=left;spacingLeft=12;verticalAlign=top;spacingTop=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="90" y="400" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="enum1_l" style="endArrow=none;dashed=1;html=1;strokeColor=#82b366;strokeWidth=1.5;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="210" y="400" as="sourcePoint" /><mxPoint x="210" y="290" as="targetPoint" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="enum2" value="&lt;b&gt;enum Tipo_reparto&lt;/b&gt;&#10;&#10;Ufficio_Logistico&#10;Ufficio_Commerciale&#10;Ufficio_Amministrazione&#10;Ufficio_Informatico" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;dashed=1;align=left;spacingLeft=12;verticalAlign=top;spacingTop=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="730" y="400" width="240" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="enum2_l" style="endArrow=none;dashed=1;html=1;strokeColor=#b85450;strokeWidth=1.5;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="850" y="400" as="sourcePoint" /><mxPoint x="850" y="332" as="targetPoint" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="leg" value="PK = chiave primaria     FK = chiave esterna     UQ = valore unico     ? = campo facoltativo" style="text;html=1;fontSize=11;fontColor=#666666;align=center;" vertex="1" parent="1">
+          <mxGeometry x="250" y="580" width="650" height="20" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
