@@ -2,6 +2,7 @@
 
 ## Indice
 
+- [Introduzione](#introduzione)
 - [Stack](#stack)
 - [Installazione](#installazione)
 - [Avvio](#avvio)
@@ -32,6 +33,24 @@
   - [Pages](#pages)
   - [Components](#components)
 - [Visualizzazione](#visualizzazione)
+
+---
+
+## Introduzione
+
+![La tabella dei dipendenti](img/TABELLA.png)
+
+Gestionale minimale a scopo didattico. In questo **ERP** (Enterprise Resource Planning) si visualizza la tabella dei dipendenti. Ogni dipendente ha un reparto e un ruolo. Il gestionale permette di:
+- visualizzare l'elenco dei dipendenti;
+- cercare un dipendente specifico o filtrare per reparto;
+- creare nuovi dipendenti;
+- modificare elementi già creati;
+- eliminare singolarmente o in blocco.
+
+Il **Backend** è di tipo REST, scritto in JavaScript con Express e Prisma per la gestione del **DB**. Il **Frontend** è realizzato in React con TypeScript. Come database abbiamo scelto un semplice database relazionale PostgreSQL in un container Docker.
+
+L'applicazione è accessibile dal browser. Non essendo pubblicata su un dominio,
+gira in locale: il frontend su `http://localhost:5173` e il backend su `http://localhost:3000`.
 
 ---
 
