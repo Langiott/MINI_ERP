@@ -17,7 +17,7 @@
   - [Alla radice](#alla-radice)
   - [Backend](#backend)
   - [Frontend](#frontend)
-- [API e  Postman](#api-e-postman)
+- [API e Postman](#api-e--postman)
 - [UML](#uml)
 - [Backend](#backend-1)
   - [Config](#config)
@@ -30,8 +30,9 @@
   - [Types](#types)
   - [Api](#api)
   - [Hooks](#hooks)
-  - [Pages](#pages)
   - [Components](#components)
+    - [Il flusso completo](#il-flusso-completo)
+  - [Pages](#pages)
 - [Visualizzazione](#visualizzazione)
 
 ---
@@ -47,7 +48,7 @@ Gestionale minimale a scopo didattico. In questo **ERP** (Enterprise Resource Pl
 - modificare elementi già creati;
 - eliminare singolarmente o in blocco.
 
-Il **Backend** è di tipo REST, scritto in JavaScript con Express e Prisma per la gestione del **DB**. Il **Frontend** è realizzato in React con TypeScript. Come database abbiamo scelto un semplice database relazionale PostgreSQL in un container Docker.
+Il **Backend** è di tipo *REST*, scritto in *JavaScript* con *Express* e *Prisma* per la gestione del **DB**. Il **Frontend** è realizzato con *React* e linguaggio di progerammazione *TypeScript*. Come database abbiamo scelto un semplice database relazionale *PostgreSQL* in un container *Docker*.
 
 L'applicazione è accessibile dal browser. Non essendo pubblicata su un dominio,
 gira in locale: il frontend su `http://localhost:5173` e il backend su `http://localhost:3000`.
@@ -473,8 +474,7 @@ cambiano i dati, e React aggiorna lo schermo.
 
 ## Backend
 
-Il backend è diviso in cartelle, ognuna con un compito solo. Una richiesta le
-attraversa in quest'ordine:
+Il backend è diviso in cartelle, ognuna con un compito solo. Ogni richiesta viene gestita da questi moduli:
 ![Il percorso di una richiesta nel backend](img/FLUSSO_BACKEND.png)
 ### Config
 
@@ -503,8 +503,7 @@ In realtà non useremo la rotta '/' ma  `/api/dipendenti` poichè è montato in 
 ### Controllers 
 
 Il controller è l'unico che conosce `req` e `res`. Il suo lavoro è sempre lo
-stesso: prendere i dati dalla richiesta, chiedere al service se vanno bene,
-chiamare Prisma, scegliere il codice di stato. Le sei funzioni ( CRUD) sono in
+stesso: prendere i dati dalla richiesta, chiedere al service se vanno bene ( validazione in ingresso , se uso json deve avere una struttura ben precisa, cosi per tutte i tipi di oggetti) . In questa sezioni sono presenti le sei funzioni ( CRUD - Create, Read, Update, Delete) sono in
 [`dipendenti.controller.js`](backend/src/controllers/dipendenti.controller.js):
 
 | Funzione | Metodo | Cosa fa | Stato se va bene |
@@ -518,8 +517,7 @@ chiamare Prisma, scegliere il codice di stato. Le sei funzioni ( CRUD) sono in
 
 Le sei funzioni sono:
 
-- **`getAllDipendenti` — elencare.** Legge i filtri dall'indirizzo e costruisce
-  l'elenco.
+- **`getAllDipendenti`** — preleva tutti i dipendenti presenti nel database
 
   ```js
   // GET /api/dipendenti
@@ -547,42 +545,84 @@ Le sei funzioni sono:
   };
   ```
 
-  L'oggetto `where` parte vuoto e si riempie solo con i filtri arrivati davvero.
-  Se non ne arriva nessuno resta `{}` e Prisma restituisce tutto: una funzione
-  sola copre sia "tutti" sia "filtrati". In SQL corrisponde a:
+  L'oggetto `where` parte vuoto e si riempie solo con i campi selezionati (`nome`, `cognome`, `ruolo` e `reparto`).
+  Se non ne arriva nessuno resta `{}`. Per esempio, filtrando per il nome `luc`, la query SQL corrispondente è:
 
   ```sql
-  SELECT * FROM "Dipendenti" WHERE nome ILIKE '%luc%' ORDER BY id ASC;
+  SELECT *
+  FROM "Dipendenti"
+  WHERE "nome" ILIKE '%luc%'
+  ORDER BY "id" ASC;
   ```
 
-- **`getDipendente` — leggere uno.** Prima di ogni altra cosa valida l'id:
+  Se non viene applicato alcun filtro, la query diventa:
+
+  ```sql
+  SELECT *
+  FROM "Dipendenti"
+  ORDER BY "id" ASC;
+  ```
+
+- **`getDipendente`** — preleva un dipendente specifico. Prima viene validato l'id, così da non generare errori:
 
   ```js
   const esito = validaId(req.params.id);
   if (!esito.ok) return res.status(400).json({ error: esito.errore });
   ```
 
-  Senza questo controllo, `/api/dipendenti/abc` diventerebbe `Number('abc')` →
-  `NaN`, Prisma andrebbe in errore e il client riceverebbe un **500** — cioè
-  "colpa del server" — quando invece la colpa è sua: **400**.
+  Senza questo controllo, la richiesta `/api/dipendenti/abc` ha come id un `Number('abc')` →
+  `NaN` e Prisma andrebbe in errore. Il client riceverebbe un **500** (errore del server), quando invece la risposta corretta è **400** (errore del client).
 
-- **`postDipendente` — creare.** Valida il body, poi crea e risponde `201`, non
-  `200`: significa *Created*, ed è la conferma che una risorsa nuova esiste.
+  Dopo la validazione, la ricerca per id corrisponde a:
 
-- **`updateDipendente` — modificare.** Due validazioni, l'id e il body. Poi:
-
-  ```js
-  data: { nome, cognome, ruolo, reparto: costruisciReparto(reparto) }
+  ```sql
+  SELECT *
+  FROM "Dipendenti"
+  WHERE "id" = $1
+  LIMIT 1;
   ```
 
-  I campi `undefined` **Prisma li ignora**: mandando `{ "ruolo": "Admin" }` il
-  nome resta quello di prima. Non serve rileggere il dipendente per riscriverlo
-  intero.
+  `$1` rappresenta l'id validato. Se la query non restituisce righe, il controller risponde con **404**.
 
-- **`deleteDipendente` — eliminare uno.** Valida l'id e chiama `delete`. Se la
-  riga non esiste Prisma **lancia** l'errore `P2025`, che diventa un **404**.
+- **`postDipendente`** — crea un nuovo dipendente. Valida il body della richiesta, crea il record e risponde con **201**. Non bisogna indicare l'id, perché viene generato automaticamente:
 
-- **`deleteDipendenti` — eliminare in blocco.** Una sola query invece di un ciclo:
+  ```sql
+  INSERT INTO "Dipendenti" ("nome", "cognome", "ruolo", "repartoId")
+  VALUES ($1, $2, $3, $4)
+  RETURNING *;
+  ```
+
+  I parametri `$1`, `$2`, `$3` e `$4` rappresentano rispettivamente nome, cognome, ruolo e id del reparto. Se viene fornito il nome di un reparto, Prisma lo collega oppure lo crea prima di inserire il dipendente.
+
+- **`updateDipendente`** — modifica i dati di un dipendente esistente nel database. La query contiene solamente i campi presenti nel body. Per esempio, modificando nome e ruolo:
+
+  ```sql
+  UPDATE "Dipendenti"
+  SET "nome" = $1,
+      "ruolo" = $2
+  WHERE "id" = $3
+  RETURNING *;
+  ```
+
+  I campi non inviati dal client sono `undefined` e vengono ignorati da Prisma. Se `reparto` vale `null`, il collegamento viene rimosso con una query equivalente a:
+
+  ```sql
+  UPDATE "Dipendenti"
+  SET "repartoId" = NULL
+  WHERE "id" = $1
+  RETURNING *;
+  ```
+
+- **`deleteDipendente`** — elimina un dipendente. Valida l'id e chiama `delete`. Se la
+  riga non esiste Prisma **lancia** l'errore `P2025`, che diventa un **404**. La query SQL corrispondente è:
+
+  ```sql
+  DELETE FROM "Dipendenti"
+  WHERE "id" = $1
+  RETURNING *;
+  ```
+
+- **`deleteDipendenti`** — elimina più dipendenti con una sola query invece di utilizzare un ciclo:
 
   ```js
   const result = await prisma.dipendenti.deleteMany({
@@ -592,6 +632,13 @@ Le sei funzioni sono:
   if (result.count === 0) {
     return res.status(404).json({ error: 'Nessun dipendente trovato' });
   }
+  ```
+
+  Per esempio, se `esito.ids` contiene `[3, 7, 12]`, la query SQL corrispondente è:
+
+  ```sql
+  DELETE FROM "Dipendenti"
+  WHERE "id" IN (3, 7, 12);
   ```
 
   Attenzione alla differenza con il punto sopra: `deleteMany` **non lancia** se
@@ -618,17 +665,16 @@ Sempre la stessa forma: `{ ok: true, dati }` oppure `{ ok: false, errore }`. È 
 controller a tradurre l'esito in un codice HTTP — il service dice *cosa* non va,
 come comunicarlo. Il vantaggio: queste funzioni si provano senza avviare il server, e le stesse
 regole varrebbero identiche se domani il progetto cambiasse tipo di API.
-
 Le funzioni in
 [`dipendenti.service.js`](backend/src/services/dipendenti.service.js):
 
-| Funzione | Controlla che |
+| Funzione | Valida |
 |---|---|
-| `validaId` | l'id sia un intero positivo |
-| `validaIds` | l'array non sia vuoto e contenga almeno un id valido |
-| `validaNuovoDipendente` | nome e cognome ci siano; ruolo e reparto siano ammessi |
-| `validaModifica` | almeno un campo sia presente e i valori siano ammessi |
-| `costruisciReparto` | traduce il nome del reparto nella forma che vuole Prisma |
+| `validaId` | controlla che l'**id** sia un intero positivo |
+| `validaIds` | controlla che l'**array** non sia vuoto e contenga almeno un **id** valido |
+| `validaNuovoDipendente` |controlla che **nome e cognome** ci siano; ruolo e reparto siano ammessi |
+| `validaModifica` |controlla che almeno un **campo** sia presente e i **valori** siano ammessi |
+| `costruisciReparto` |controlla che traduce il nome del **reparto** nella forma che vuole Prisma |
 
 **`costruisciReparto`** merita una riga in più, perché gestisce tre casi diversi:
 
@@ -661,7 +707,7 @@ predisposte per due passi successivi.
 
 ### Osservazioni
 
-- **Gestione degli errori.** Una funzione sola, richiamata da tutte e sei nel
+- **Gestione degli errori** —  Una funzione sola, richiamata da tutte e sei nel
   `catch`:
 
   ```js
@@ -677,54 +723,47 @@ predisposte per due passi successivi.
   dettaglio del 500 va nel log, non nella risposta: al client non si dice com'è
   fatto il database dentro.
 
-- **Validazione dei dati.** Non fidarsi mai di quello che arriva da fuori: può
+- **Validazione dei dati** — Non fidarsi mai di quello che arriva da fuori: può
   essere il nostro frontend, ma anche Postman o uno script. Va fatta **prima** di
   Prisma, altrimenti un dato sbagliato diventa `500` invece di `400`.
 
-- **Zod** — libreria che genera i controlli da uno schema, al posto degli `if`
-  scritti a mano. Non installata.
+- **Zod** — La libreria che genera i controlli da uno schema, al posto degli `if`
+  scritti a mano.
 
-- **ESLint** — segnala gli errori nel codice: variabili inutilizzate, `await`
-  dimenticati. ESLint dice se il codice è **sbagliato**
+- **ESLint** — Segnala gli errori nel codice cioè variabili inutilizzate e `await`
+  dimenticati. ESLint dice se il codice è sbagliato e non come modificarlo.
 
-- **Prettier** — uniforma la formattazione a ogni salvataggio. Prettier come **appare** e ci indica
-  come migliorarlo
+- **Prettier** — Uniforma la formattazione a ogni salvataggio. Prettier come appare e ci indica
+  come migliorarlo per leggibilità.
 
-- **Programmazione Asincrona**- Ogni controller è dichiarato `async` e ogni chiamata a Prisma ha un `await`:
+- **Programmazione asincrona** — Ogni controller è dichiarato `async` e le chiamate a Prisma vengono attese con `await`.
+Interrogare il database **richiede tempo**: PostgreSQL deve elaborare la query e
+  restituire il risultato. Il codice JavaScript di Node.js viene eseguito
+  principalmente su un solo thread, ma le operazioni di input/output, come
+  l'accesso al database, vengono gestite in modo asincrono. Durante l'attesa,
+  quindi, Node.js può continuare a gestire altre richieste.
 
-  ```js
-  const dipendenti = await prisma.dipendenti.findMany();
-  ```
+  Prisma restituisce una `Promise`, cioè un oggetto che rappresenta un risultato
+  che sarà disponibile in futuro. `await` non crea la Promise: sospende soltanto
+  l'esecuzione della funzione `async` corrente finché la Promise non viene
+  completata. Quando PostgreSQL restituisce i dati, la funzione riprende dal punto
+  in cui era stata sospesa.
 
-  Il motivo è che interrogare il database **richiede tempo**: Node deve aspettare
-  la risposta di PostgreSQL. Node però ha un thread solo — se restasse fermo ad
-  aspettare, tutte le altre richieste in arrivo rimarrebbero in coda.
-
-  `await` risolve questo: mette in pausa **quella funzione**, lascia Node libero di
-  occuparsi di altro, e la riprende quando i dati sono pronti.
-
-  Due conseguenze pratiche:
-
-  - **senza `await`** si ottiene una *Promise* invece dei dati — l'oggetto che
-    rappresenta "la risposta arriverà". Mandarla al client produce `{}`.
-  - **`await` va dentro `try/catch`**: se la query fallisce, l'errore viene lanciato
-    lì. È il motivo per cui tutti i controller hanno quella struttura.
+  ![Flusso asincrono di async e await in Node.js](img/ASYNC1.png)
 
 
 
 ## Frontend
 
-Anche il frontend è diviso per compito, e la regola è una sola: **i componenti non
-sanno che esiste una rete**. Ricevono dati come *props* e comunicano con
-*callback*.
+Anche il frontend è diviso per moduli, e la regola è una sola: i moduli non
+sanno che esiste una rete. Ricevono dati come **props** (sono i dati che un componente riceve dal genitore. Sono l'equivalente dei parametri di una funzione, perché in React un componente è una funzione.) e comunicano con **callback** (è una funzione passata come argomento a un'altra funzione, perché venga chiamata da quest'ultima ).
 
 ![Il percorso dei dati nel frontend](img/FLUSSO_FRONTEND.png)
 
 ### Types 
 
-TypeScript serve a sapere **prima di eseguire** che forma hanno i dati. In
-[`dipendenti.types.ts`](frontend/src/types/dipendenti.types.ts) ci sono tre tipi
-per lo stesso dipendente, ed è voluto:
+In Javascript non ci sono i tipi , perciò TypeScript ci aiuta a crearli e utilizzarli lato Frontend. In [`dipendenti.types.ts`](frontend/src/types/dipendenti.types.ts) ci sono tre tipi
+per lo stesso dipendente, utili per tre casi possibili:
 
 ```ts
 // Come arriva dal backend: i campi ci sono sempre, il valore può essere null
@@ -748,16 +787,10 @@ export type ModificaDipendente = {
   ruolo?: Ruolo;
 };
 ```
-Sono diversi perché **le tre situazioni sono diverse**: in lettura l'`id` c'è di
-sicuro, in creazione non esiste ancora, in modifica quasi tutto è facoltativo. Un
-tipo unico costringerebbe a scrivere `id?` e perderebbe proprio il controllo che
-serve.
-
-
 
 ### Api
 
-[`dipendenti.api.ts`](frontend/src/api/dipendenti.api.ts) contiene sei funzioni,
+In questo file [`dipendenti.api.ts`](frontend/src/api/dipendenti.api.ts) contiene sei funzioni,
 una per endpoint, e una funzione condivisa che merita attenzione:
 
 ```ts
@@ -772,9 +805,7 @@ async function gestisciRisposta(res: Response) {
 
 Esiste perché **`fetch` non considera un errore i codici HTTP**. Un 404 o un 500
 arrivano come risposte normali, con `res.ok` a `false`. Senza questo controllo il
-messaggio d'errore del server finirebbe nella tabella come se fosse un dipendente.
-
-Una chiamata tipica:
+messaggio d'errore del server finirebbe nella tabella come se fosse un dipendente. Una chiamata tipica:
 
 ```ts
 export async function creaDipendente(dati: NuovoDipendente): Promise<Dipendente> {
@@ -787,13 +818,14 @@ export async function creaDipendente(dati: NuovoDipendente): Promise<Dipendente>
 }
 ```
 
-L'header `Content-Type` è obbligatorio: è ciò che fa funzionare `express.json()`
-dall'altra parte.
-
 ### Hooks
 
 Un **hook** è una funzione che raccoglie logica riutilizzabile. Per convenzione il
-nome inizia con `use`. Perciò [`useDipendenti.ts`](frontend/src/hooks/useDipendenti.ts) tiene tutto lo stato
+nome inizia con `use`. Senza l'hook, tutto questo starebbe dentro `DipendentiPage`, che diventerebbe
+lunga e difficile da leggere. Con l'hook la pagina si limita a **disporre** i
+pezzi. Dopo ogni salvataggio o eliminazione si chiama `ricarica()`: si rilegge l'elenco
+dal server invece di aggiornare l'array in memoria. Costa una richiesta in più,
+ma garantisce che quel che si vede sia quel che c'è davvero nel database. Perciò [`useDipendenti.ts`](frontend/src/hooks/useDipendenti.ts) tiene tutto lo stato
 della pagina — l'elenco, l'errore, le selezioni, quali finestre sono aperte — e
 restituisce insieme i dati e le funzioni per modificarli:
 
@@ -818,11 +850,7 @@ export default function useDipendenti() {
 }
 ```
 
-Senza l'hook, tutto questo starebbe dentro `DipendentiPage`, che diventerebbe
-lunga e difficile da leggere. Con l'hook la pagina si limita a **disporre** i
-pezzi. Dopo ogni salvataggio o eliminazione si chiama `ricarica()`: si rilegge l'elenco
-dal server invece di aggiornare l'array in memoria. Costa una richiesta in più,
-ma garantisce che quel che si vede sia quel che c'è davvero nel database.
+
 
 Esistono vari tipi di Hooks:
 
@@ -879,7 +907,6 @@ Esistono vari tipi di Hooks:
 
 I primi due sono quelli usati in `useDipendenti`. Gli altri non servono a un
 progetto di queste dimensioni, ma sono i successivi da conoscere.
-
 Oltre a questi ci sono gli **hook personalizzati**, come `useDipendenti`: non
 sono forniti da React, li scrivi tu combinando i precedenti. La regola è che il
 nome inizi per `use`.
@@ -892,6 +919,64 @@ function useDipendenti() {
   return { dipendenti, ricarica };                    // quello che serve alla pagina
 }
 ```
+
+
+
+
+### Components
+
+Un componente React è una funzione che riceve delle **props** e restituisce del
+**JSX** (JavaScript XML), cioè la parte di interfaccia da mostrare. I components possono visualizzare o eseguire delle azioni dell'utente chiamando una callback (vengono indicate con il prefisso on significa «quando accade questo evento).
+
+| Componente | Cosa disegna |
+|---|---|
+| `Layout` | Componeti base della pagina|
+| `BarraDipendenti` | Mostra titolo, pulsante *Crea*, azioni sulla selezione |
+| `TabellaDipendenti` | L'elenco, con le caselle di selezione |
+| `FormDipendente` | Apre finestra per creare e modificare |
+| `ConfermaElimina` | Crea domanda prima di cancellare |
+| `Dialogo` | Velo grigio e riquadro bianco, riusabile |
+
+
+
+I dati scendono dall'hook verso i componenti, mentre le azioni dell'utente
+risalgono dai componenti verso l'hook. `DipendentiPage` si trova in mezzo e
+collega le due parti.
+
+```text
+Dati:    backend → dipendenti.api.ts → useDipendenti → DipendentiPage → componente
+Azioni:  componente → callback → DipendentiPage → useDipendenti → dipendenti.api.ts
+```
+
+**Quando la pagina viene aperta**, il flusso dei dati avviene in questo ordine:
+
+1. `useDipendenti` chiama la funzione dell'API che richiede l'elenco al backend;
+2. il backend restituisce i dipendenti e l'hook li salva nel proprio stato;
+3. `DipendentiPage` riceve dall'hook l'array `dipendenti`;
+4. la pagina passa l'array a `TabellaDipendenti` tramite la prop `dipendenti`;
+5. la tabella usa `map` per visualizzare una riga per ogni dipendente.
+
+
+**Quando l'utente compie un'azione**, il percorso avviene al contrario. Per
+esempio, premendo *Elimina*:
+
+1. `TabellaDipendenti` chiama `onElimina(dipendente)`;
+2. `DipendentiPage` ha collegato questa callback alla funzione
+   `apriEliminazioneSingola` restituita dall'hook;
+3. l'hook salva il dipendente scelto nello stato `daEliminare`;
+4. il nuovo stato fa comparire `ConfermaElimina`;
+5. solo dopo il click su *Conferma*, l'hook usa `dipendenti.api.ts` per inviare
+   la richiesta `DELETE` al backend;
+6. terminata l'eliminazione, l'hook ricarica i dati e React aggiorna la tabella.
+
+Il componente comunica quindi soltanto **cosa è successo**. Non decide come
+gestire l'azione e non conosce né la rete né il backend. La decisione rimane
+nell'hook, mentre `DipendentiPage` associa ogni callback alla funzione corretta.
+
+È lo stesso principio del service nel backend: **chi disegna non decide, e chi
+decide non disegna**. Il vantaggio pratico è che `TabellaDipendenti` funzionerebbe senza modifiche
+anche se i dati arrivassero da un file invece che dalla rete: le basta ricevere
+un array di `Dipendente` e le stesse callback.
 
 
 ### Pages
@@ -929,26 +1014,6 @@ export default function DipendentiPage() {
   );
 }
 ```
-
-
-### Components 
-I componets sono utili per interfaccia grafica della pagina: 
-
-
-| Componente | Cosa disegna |
-|---|---|
-| `Layout` | l'intelaiatura della pagina |
-| `BarraDipendenti` | titolo, pulsante *Crea*, azioni sulla selezione |
-| `TabellaDipendenti` | l'elenco, con le caselle di selezione |
-| `FormDipendente` | il modulo per creare e modificare |
-| `ConfermaElimina` | la domanda prima di cancellare |
-| `Dialogo` | velo grigio e riquadro bianco, riusabile |
-
-Nessuno di questi importa `dipendenti.api.ts`. Ricevono dati e restituiscono
-intenzioni: `onModifica`, `onElimina`, `onSalva`. È lo stesso principio del
-service nel backend — **chi disegna non decide**, e chi decide non disegna.
-Il vantaggio pratico: `TabellaDipendenti` funziona identica se un domani i dati
-arrivassero da un file invece che dalla rete.
 
 ## Visualizzazione
 **Visualizza.** La prima schermata che ci compare 
