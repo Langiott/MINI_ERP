@@ -31,7 +31,6 @@
   - [Api](#api)
   - [Hooks](#hooks)
   - [Components](#components)
-    - [Il flusso completo](#il-flusso-completo)
   - [Pages](#pages)
 - [Visualizzazione](#visualizzazione)
 
