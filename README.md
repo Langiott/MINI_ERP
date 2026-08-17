@@ -938,6 +938,7 @@ Un componente React è una funzione che riceve delle **props** e restituisce del
 | `Dialogo` | Velo grigio e riquadro bianco, riusabile |
 
 
+#### Il flusso completo
 
 I dati scendono dall'hook verso i componenti, mentre le azioni dell'utente
 risalgono dai componenti verso l'hook. `DipendentiPage` si trova in mezzo e
